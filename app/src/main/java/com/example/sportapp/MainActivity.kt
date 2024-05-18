@@ -3,46 +3,41 @@ package com.example.sportapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.example.sportapp.ui.theme.Blue
+import com.example.sportapp.ui.theme.Grey
 import com.example.sportapp.ui.theme.SportAppTheme
+import com.example.sportapp.ui.theme.White
+import com.example.sportapp.views.EventsView
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
 
+        setContent {
             SportAppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                            name = "Android",
-                            modifier = Modifier.padding(innerPadding)
+                Scaffold(
+                    topBar = {
+                        TopAppBar(
+                            title = {
+                                Text(text = getString(R.string.app_name))
+                            },
+                            backgroundColor = Blue,
+                            contentColor = White,
+                            elevation = 12.dp
+                        )
+                    }, content = {
+                        EventsView(
+                            modifier = Modifier.padding(it)
                     )
-                }
+                    }, backgroundColor = Grey)
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-            text = "Hello $name!",
-            modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    SportAppTheme {
-        Greeting("Android")
     }
 }
