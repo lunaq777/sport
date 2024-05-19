@@ -18,9 +18,9 @@ import javax.inject.Inject
 @HiltViewModel
 class EventsViewModel @Inject constructor(private val sportEventsAPI: SportEventsAPI) : ViewModel() {
 
-    private val _data = MutableLiveData<List<SportResponse>>()
-    val data: LiveData<List<SportResponse>>
-        get() = _data
+    private val _eventsData = MutableLiveData<List<SportResponse>>()
+    val eventsData: LiveData<List<SportResponse>>
+        get() = _eventsData
 
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String>
@@ -40,7 +40,7 @@ class EventsViewModel @Inject constructor(private val sportEventsAPI: SportEvent
                     val response = sportEventsAPI.getEvents()
                     if (response.isSuccessful) {
                         _isShowProgress.postValue(false)
-                        _data.postValue(response.body())
+                        _eventsData.postValue(response.body())
                     } else {
                         _isShowProgress.postValue(true)
                         _errorMessage.postValue(response.message())

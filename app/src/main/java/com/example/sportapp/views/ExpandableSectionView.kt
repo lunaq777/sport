@@ -22,6 +22,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -34,23 +35,30 @@ import com.example.sportapp.ui.theme.Grey
 import com.example.sportapp.ui.theme.GreyLighter
 import com.example.sportapp.ui.theme.GreySmoke
 import com.example.sportapp.ui.theme.White
+import com.example.sportapp.util.FavouriteEventKeeper
+import com.example.sportapp.util.FavouriteEventKeeper.Companion.SPORTS_KEY
 
 @Composable
 fun ExpandableSectionView(
     modifier: Modifier = Modifier,
+    favouriteEventKeeper: FavouriteEventKeeper,
     title: String,
+    sportId: String,
     content: @Composable () -> Unit
 ) {
+    val context = LocalContext.current
+    val events = favouriteEventKeeper.getSavedSportsOrEvents(context, SPORTS_KEY)
     var isExpanded by rememberSaveable { mutableStateOf(false) }
-    var isChecked by rememberSaveable { mutableStateOf(false) }
+    var isChecked by rememberSaveable { mutableStateOf(events?.contains(sportId)) }
     Column(
         modifier = modifier
             .background(color = White)
             .fillMaxWidth()
     ) {
-        ExpandableSectionTitle(isExpanded = isExpanded, isChecked = isChecked, title = title, onExpandCollapse = {
+        ExpandableSectionTitle(isExpanded = isExpanded, isChecked = isChecked?: false, title = title, onExpandCollapse = {
             isExpanded = !isExpanded
         }, onCheckedChange = {
+            favouriteEventKeeper.saveSportOrEvent(context, SPORTS_KEY, sportId, it)
             isChecked = it
         })
 

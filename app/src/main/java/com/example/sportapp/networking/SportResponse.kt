@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 class SportResponse {
 
     @SerializedName("i")
-    val sportId:String? = null
+    val sportId:String? = null //TODO
 
     @SerializedName("d")
     val sportName:String? = null
