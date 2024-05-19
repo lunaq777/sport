@@ -14,7 +14,9 @@ import com.example.sportapp.ui.theme.Grey
 import com.example.sportapp.ui.theme.SportAppTheme
 import com.example.sportapp.ui.theme.White
 import com.example.sportapp.views.EventsView
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -9,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.sportapp"
-        minSdk = 21
+        minSdk = 23
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -46,6 +49,13 @@ android {
     }
 }
 
+kapt {
+    javacOptions {
+        option("-Adagger.hilt.android.internal.disableAndroidSuperclassValidation=true")
+    }
+    correctErrorTypes = true
+}
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -58,6 +68,19 @@ dependencies {
     implementation(libs.compose.ui.core)
     implementation(libs.compose.material)
     implementation(libs.compose.runtime)
+    implementation(libs.gsn.retrofit)
+    implementation(libs.retrofit)
+    implementation(libs.okhttp.core)
+    implementation(libs.viewmodel.ktx)
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation.compose)
+    implementation(libs.activity.compose)
+    implementation(libs.compose.viewbinding)
+    implementation(libs.appcompat)
+    kapt(libs.hilt.compiler)
+    kapt(libs.hilt.compiler.android)
+    implementation("androidx.hilt:hilt-work:1.0.0")
+    implementation("androidx.work:work-runtime-ktx:2.8.1")
     implementation(platform(libs.androidx.compose.bom))
 
     testImplementation(libs.junit)
