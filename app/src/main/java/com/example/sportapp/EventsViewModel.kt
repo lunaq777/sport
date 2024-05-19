@@ -25,16 +25,24 @@ class EventsViewModel @Inject constructor(private val sportEventsAPI: SportEvent
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String>
         get() = _errorMessage
+
+    private val _isShowProgress = MutableLiveData<Boolean>()
+    val isShowProgress: LiveData<Boolean>
+        get() = _isShowProgress
     @RequiresApi(Build.VERSION_CODES.M)
     fun init(context: Context) {
             viewModelScope.launch {
+                _isShowProgress.postValue(true)
                 if (!checkInternetConnection(context)) {
+                    _isShowProgress.postValue(true)
                     _errorMessage.postValue(context.getString(R.string.no_internet))
                 } else {
                     val response = sportEventsAPI.getEvents()
                     if (response.isSuccessful) {
+                        _isShowProgress.postValue(false)
                         _data.postValue(response.body())
                     } else {
+                        _isShowProgress.postValue(true)
                         _errorMessage.postValue(response.message())
                     }
                 }
