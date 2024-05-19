@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.Text
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconToggleButton
@@ -17,9 +18,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sportapp.R
+import com.example.sportapp.networking.Event
 import com.example.sportapp.ui.theme.Grey
 import com.example.sportapp.ui.theme.GreyLighter
 import com.example.sportapp.ui.theme.Orange
@@ -28,9 +31,12 @@ import com.example.sportapp.ui.theme.Yellow
 
 
 @Composable
-fun EventItemView() {
-
+fun EventItemView(event: Event) {
     val checkedState = remember { mutableStateOf(false) }
+
+    val firstTeam = event.eventName?.substringBefore("-")?: ""
+    val secondTeam = event.eventName?.substringAfter("-")?: ""
+    val time = event.eventStartTime?: 0
 
     Column(
         modifier = Modifier
@@ -40,7 +46,9 @@ fun EventItemView() {
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "HH:MM:SS",
+            text = "$time",
+            maxLines = 1,
+            textAlign = TextAlign.Center,
             style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 10.sp, color = White),
         )
 
@@ -63,17 +71,22 @@ fun EventItemView() {
         }
 
         Text(
-            text = "Competitor 1",
-            maxLines = 1,
+            modifier = Modifier.width(60.dp),
+            text = firstTeam,
+            maxLines = 2,
+            textAlign = TextAlign.Center,
             style = TextStyle(fontWeight = FontWeight.Normal, fontSize = 10.sp, color = White),
         )
         Text(
             text = stringResource(id = R.string.vs),
+            textAlign = TextAlign.Center,
             style = TextStyle(fontWeight = FontWeight.Normal, fontSize = 8.sp, color = Orange),
         )
         Text(
-            text = "Competitor 2",
-            maxLines = 1,
+            modifier = Modifier.width(60.dp),
+            text = secondTeam,
+            maxLines = 2,
+            textAlign = TextAlign.Center,
             style = TextStyle(fontWeight = FontWeight.Normal, fontSize = 10.sp, color = White),
         )
 

@@ -3,6 +3,8 @@ package com.example.sportapp
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,6 +25,7 @@ class EventsViewModel @Inject constructor(private val sportEventsAPI: SportEvent
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String>
         get() = _errorMessage
+    @RequiresApi(Build.VERSION_CODES.M)
     fun init(context: Context) {
             viewModelScope.launch {
                 if (!checkInternetConnection(context)) {
@@ -37,6 +40,7 @@ class EventsViewModel @Inject constructor(private val sportEventsAPI: SportEvent
                 }
             }
         }
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun checkInternetConnection(context: Context): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         connectivityManager.activeNetwork?.let { network ->
